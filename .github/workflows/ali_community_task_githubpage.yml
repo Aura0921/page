@@ -4,7 +4,8 @@ name: Update GitHub Pages
 on:
   schedule:
     - cron: '0 0,8,13,18 * * *'  # 每天 UTC 时间 00:00 执行，可以根据需要修改时间
-
+  workflow_dispatch:
+  
 permissions:
   contents: write  
 
@@ -45,4 +46,4 @@ jobs:
         git config --global user.email "github-actions@github.com"
         git add report.html
         git commit -m "Update report.html with new activity data" || echo "No changes to commit"
-        git push origin main  # 推送到主分支（或者你设置的其他分支）
+        git push origin main
