@@ -3,7 +3,7 @@ name: Update GitHub Pages
 # 触发条件：每天定时执行
 on:
   schedule:
-    - cron: '0 0 * * *'  # 每天 UTC 时间 00:00 执行，可以根据需要修改时间
+    - cron: '0 0,8,13,18 * * *'  # 每天 UTC 时间 00:00 执行，可以根据需要修改时间
 
 jobs:
   build:
@@ -25,13 +25,21 @@ jobs:
 
     - name: Run script to generate HTML
       run: |
-        python ali_community_task_githubpage.py  # 运行你的 Python 脚本来生成 index.html
+        python ali_community_task_githubpage.py  # 运行你的 Python 脚本来生成 report.html
+
+    - name: Check if report.html is generated
+      run: |
+        if [ -f "./report.html" ]; then
+          echo "报告文件已生成：report.html"
+        else
+          echo "报告文件未生成：report.html"
+          exit 1  # 如果文件未生成，终止工作流
+        fi
 
     - name: Commit and push the changes
       run: |
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
-        git add index.html
-        git commit -m "Update ali_community_task_githubpage.html with new activity data"
+        git add report.html
+        git commit -m "Update report.html with new activity data" || echo "No changes to commit"
         git push origin main  # 推送到主分支（或者你设置的其他分支）
-
