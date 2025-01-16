@@ -5,6 +5,9 @@ on:
   schedule:
     - cron: '0 0,8,13,18 * * *'  # 每天 UTC 时间 00:00 执行，可以根据需要修改时间
 
+permissions:
+  contents: write  
+
 jobs:
   build:
     runs-on: ubuntu-latest
