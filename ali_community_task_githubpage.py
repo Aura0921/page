@@ -97,10 +97,22 @@ def generate_html_report():
     today_html = generate_html_table(mark_new_and_invalid_activities(today_data),
                                      f"今日活动 ({datetime.date.today()})") if today_data else "<p>今日没有活动数据。</p>"
 
-    full_html = f"<html><head><title>活动报告</title></head><body><h1>每日活动报告</h1>{today_html}</body></html>"
+    # Google Analytics 代码
+    google_analytics = """
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VCQTMFWDT9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VCQTMFWDT9');
+    </script>
+    """
+
+    full_html = f"<html><head><title>活动报告</title>{google_analytics}</head><body><h1>每日活动报告</h1>{today_html}</body></html>"
 
     return full_html
-
 
 if __name__ == "__main__":
     try:
