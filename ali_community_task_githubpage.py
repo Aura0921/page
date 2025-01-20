@@ -110,7 +110,7 @@ def generate_html_report():
     </script>
     """
 
-    full_html = f"<html><head><title>活动报告</title>{google_analytics}</head><body><h1>每日活动报告</h1><h2>每小时更新一次，没则更新代表没变化</h2>{today_html}</body></html>"
+    full_html = f"<html><head><title>活动报告</title>{google_analytics}</head><body><h1>每日活动报告</h1><h2>每小时更新一次，没更新则代表没变化</h2>{today_html}</body></html>"
 
     return full_html
 
