@@ -3,7 +3,7 @@ name: Update GitHub Pages
 # 触发条件：每天定时执行
 on:
   schedule:
-    - cron: '0 0,8,13,18 * * *'  # 每天 UTC 时间 00:00 执行，可以根据需要修改时间
+    - cron: '0 */1 * * *'
   workflow_dispatch:
   
 permissions:
