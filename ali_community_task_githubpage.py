@@ -80,7 +80,7 @@ def mark_new_and_invalid_activities(today_data):
 
 # 生成HTML表格
 def generate_html_table(data, title):
-    html = f"<h2>{title}</h2><style>.col-title{{width:200px;}}.col-description{{width:200px;}}.col-gift{{width:100px;}}.col-start{{width:150px;}}.col-end{{width:150px;}}.col-new{{width:100px;}}.col-status{{width:100px;}}.col-task{{width:100px;}}.col-url{{width:100px;}}table{{border-collapse:collapse;}}th,td{{border:1px solid black;padding:10px;}}</style><table><thead><tr><th class='col-title'>活动标题</th><th class='col-description'>描述</th><th class='col-gift'>奖品</th><th class='col-start'>开始时间</th><th class='col-end'>结束时间</th><th class='col-new'>是否新增</th><th class='col-status'>活动状态</th><th class='col-task'>任务类别</th><th class='col-url'>活动链接</th></tr></thead><tbody>"
+    html = f"<meta charset="UTF-8"><h2>{title}</h2><style>.col-title{{width:200px;}}.col-description{{width:200px;}}.col-gift{{width:100px;}}.col-start{{width:150px;}}.col-end{{width:150px;}}.col-new{{width:100px;}}.col-status{{width:100px;}}.col-task{{width:100px;}}.col-url{{width:100px;}}table{{border-collapse:collapse;}}th,td{{border:1px solid black;padding:10px;}}</style><table><thead><tr><th class='col-title'>活动标题</th><th class='col-description'>描述</th><th class='col-gift'>奖品</th><th class='col-start'>开始时间</th><th class='col-end'>结束时间</th><th class='col-new'>是否新增</th><th class='col-status'>活动状态</th><th class='col-task'>任务类别</th><th class='col-url'>活动链接</th></tr></thead><tbody>"
 
     for activity in data:
         gifts = ", ".join(activity.get('giftList', {}).get('awardList', []))
