@@ -80,24 +80,71 @@ def mark_new_and_invalid_activities(today_data):
 
 # 生成HTML表格
 def generate_html_table(data, title):
-    html = f"<meta charset=\"UTF-8\"><h2>{title}</h2><style>.col-title{{width:200px;}}.col-description{{width:200px;}}.col-gift{{width:100px;}}.col-start{{width:150px;}}.col-end{{width:150px;}}.col-new{{width:100px;}}.col-status{{width:100px;}}.col-task{{width:100px;}}.col-url{{width:100px;}}table{{border-collapse:collapse;}}th,td{{border:1px solid black;padding:10px;}}</style><table><thead><tr><th class='col-title'>活动标题</th><th class='col-description'>描述</th><th class='col-gift'>奖品</th><th class='col-start'>开始时间</th><th class='col-end'>结束时间</th><th class='col-new'>是否新增</th><th class='col-status'>活动状态</th><th class='col-task'>任务类别</th><th class='col-url'>活动链接</th></tr></thead><tbody>"
+    # 生成状态徽章的样式
+    def status_badge(status):
+        if status == '有效':
+            return '<span class="badge badge-success">有效</span>'
+        elif status == '失效':
+            return '<span class="badge badge-danger">失效</span>'
+        else:
+            return f'<span class="badge badge-secondary">{status}</span>'
 
+    def new_badge(is_new):
+        if is_new == '是':
+            return '<span class="badge badge-new">新增</span>'
+        else:
+            return '<span class="badge badge-old">已有</span>'
+
+    rows = ''
     for activity in data:
         gifts = ", ".join(activity.get('giftList', {}).get('awardList', []))
-        html += f"<tr><td>{activity['title']}</td><td>{activity['description']}</td><td>{gifts}</td><td>{activity['gmtStart']}</td><td>{activity['gmtEnd']}</td><td>{activity['is_new']}</td><td>{activity['status']}</td><td>{activity['task_category']}</td><td><a href='{activity['url']}' target='_blank'>查看详情</a></td></tr>"
+        rows += f"""
+        <tr>
+            <td>{activity['title']}</td>
+            <td>{activity['description']}</td>
+            <td>{gifts}</td>
+            <td>{activity['gmtStart']}</td>
+            <td>{activity['gmtEnd']}</td>
+            <td>{new_badge(activity['is_new'])}</td>
+            <td>{status_badge(activity['status'])}</td>
+            <td>{activity['task_category']}</td>
+            <td><a href="{activity['url']}" target="_blank" class="btn-link">查看详情 →</a></td>
+        </tr>
+        """
 
-    html += "</tbody></table>"
+    html = f"""
+    <div class="table-container">
+        <h2 class="section-title">{title}</h2>
+        <table class="activity-table">
+            <thead>
+                <tr>
+                    <th>活动标题</th>
+                    <th>描述</th>
+                    <th>奖品</th>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
+                    <th>是否新增</th>
+                    <th>活动状态</th>
+                    <th>任务类别</th>
+                    <th>活动链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                {rows}
+            </tbody>
+        </table>
+    </div>
+    """
     return html
 
 
 def generate_html_report():
     today_data = fetch_data()
+    today_html = generate_html_table(
+        mark_new_and_invalid_activities(today_data),
+        f"今日活动 ({datetime.date.today()})"
+    ) if today_data else "<p class='no-data'>今日没有活动数据。</p>"
 
-    # 标记新增和失效活动
-    today_html = generate_html_table(mark_new_and_invalid_activities(today_data),
-                                     f"今日活动 ({datetime.date.today()})") if today_data else "<p>今日没有活动数据。</p>"
-
-    # Google Analytics 代码
     google_analytics = """
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VCQTMFWDT9"></script>
@@ -105,13 +152,162 @@ def generate_html_report():
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-VCQTMFWDT9');
     </script>
     """
 
-    full_html = f"<html><head><title>活动报告</title>{google_analytics}</head><body><h1>每日活动报告</h1><h2>每小时更新一次，没更新则代表没变化</h2>{today_html}</body></html>"
-
+    full_html = f"""<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日活动报告</title>
+    {google_analytics}
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }}
+        body {{
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f5f7fb;
+            color: #1e293b;
+            line-height: 1.5;
+            padding: 2rem 1rem;
+        }}
+        .report-container {{
+            max-width: 1400px;
+            margin: 0 auto;
+        }}
+        h1 {{
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }}
+        h1 i {{
+            color: #3b82f6;
+        }}
+        .subtitle {{
+            color: #64748b;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            border-left: 4px solid #3b82f6;
+            padding-left: 1rem;
+        }}
+        .section-title {{
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem 0;
+            color: #1e293b;
+        }}
+        .table-container {{
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.02);
+            overflow-x: auto;
+        }}
+        .activity-table {{
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+            min-width: 1000px; /* 保证表格在宽屏上完整显示，小屏滚动 */
+        }}
+        .activity-table th {{
+            background: #f8fafc;
+            color: #334155;
+            font-weight: 600;
+            padding: 1rem 0.75rem;
+            text-align: left;
+            border-bottom: 2px solid #e2e8f0;
+            white-space: nowrap;
+        }}
+        .activity-table td {{
+            padding: 1rem 0.75rem;
+            border-bottom: 1px solid #e9edf2;
+            vertical-align: middle;
+        }}
+        .activity-table tbody tr:hover {{
+            background-color: #f8fafc;
+            transition: background 0.2s;
+        }}
+        .badge {{
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-align: center;
+            white-space: nowrap;
+        }}
+        .badge-success {{
+            background: #dff9e6;
+            color: #0b5e42;
+        }}
+        .badge-danger {{
+            background: #fee9e7;
+            color: #b91c1c;
+        }}
+        .badge-secondary {{
+            background: #e9eef4;
+            color: #4b5565;
+        }}
+        .badge-new {{
+            background: #dbeafe;
+            color: #1e40af;
+        }}
+        .badge-old {{
+            background: #f1f5f9;
+            color: #475569;
+        }}
+        .btn-link {{
+            text-decoration: none;
+            color: #2563eb;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            transition: color 0.2s;
+        }}
+        .btn-link:hover {{
+            color: #1e40af;
+            text-decoration: underline;
+        }}
+        .no-data {{
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            color: #64748b;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }}
+        footer {{
+            margin-top: 3rem;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }}
+    </style>
+</head>
+<body>
+    <div class="report-container">
+        <h1><i class="fas fa-calendar-alt"></i> 每日活动报告</h1>
+        <div class="subtitle">每小时更新一次 · 没更新则代表数据无变化</div>
+        {today_html}
+        <footer>
+            <i class="far fa-clock"></i> 最后更新：{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+        </footer>
+    </div>
+</body>
+</html>"""
     return full_html
 
 if __name__ == "__main__":
