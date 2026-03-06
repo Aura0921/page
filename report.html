@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>每日活动报告</title>
+    <title>每日活动报告 · 积分礼品</title>
     
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VCQTMFWDT9"></script>
@@ -14,7 +14,6 @@
       gtag('config', 'G-VCQTMFWDT9');
     </script>
     
-    <!-- Google Fonts & Font Awesome -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -46,15 +45,52 @@
         h1 i {
             color: #3b82f6;
         }
-        .subtitle {
+
+        /* 主标签页样式 */
+        .main-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1.5rem 0 1rem;
+            background: white;
+            padding: 0.5rem;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            width: fit-content;
+        }
+        .main-tab-btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            background: none;
+            font-size: 1.1rem;
+            font-weight: 600;
             color: #64748b;
-            margin-bottom: 2rem;
-            font-size: 1rem;
-            border-left: 4px solid #3b82f6;
-            padding-left: 1rem;
+            cursor: pointer;
+            border-radius: 40px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .main-tab-btn i {
+            font-size: 1.2rem;
+        }
+        .main-tab-btn:hover {
+            background: #f1f5f9;
+            color: #334155;
+        }
+        .main-tab-btn.active {
+            background: #667eea;
+            color: white;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        .main-tab-pane {
+            display: none;
+        }
+        .main-tab-pane.active {
+            display: block;
         }
 
-        /* ===== 不蒜子卡片网格 ===== */
+        /* 不蒜子卡片 */
         .bsz-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -98,18 +134,8 @@
             color: #64748b;
             margin-left: 0.2rem;
         }
-        /* 统计图标 */
-        .bsz-icon {
-            display: inline-block;
-            margin-bottom: 1rem;
-            opacity: 0.8;
-            transition: opacity 0.2s;
-        }
-        .bsz-icon:hover {
-            opacity: 1;
-        }
 
-        /* ===== 统计卡片（原有，微调） ===== */
+        /* 统计卡片（通用） */
         .stats-card {
             background: white;
             border-radius: 24px;
@@ -120,6 +146,16 @@
             box-shadow: 0 15px 30px -12px rgba(0,0,0,0.1);
             border: 1px solid rgba(255,255,255,0.5);
             backdrop-filter: blur(10px);
+        }
+        /* 礼品统计卡片专用样式（支持换行） */
+        .stats-card.gifts-stats {
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1rem;
+        }
+        .stats-card.gifts-stats .stat-item {
+            min-width: 150px;
+            flex: 1 1 auto;
         }
         .stat-item {
             display: flex;
@@ -152,6 +188,7 @@
             line-height: 1;
         }
 
+        /* 通用标题 */
         .section-title {
             font-size: 1.5rem;
             font-weight: 600;
@@ -167,6 +204,8 @@
             height: 2px;
             background: linear-gradient(90deg, #cbd5e1, transparent);
         }
+
+        /* 表格容器 */
         .table-container {
             background: rgba(255,255,255,0.8);
             backdrop-filter: blur(10px);
@@ -175,7 +214,10 @@
             box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15);
             border: 1px solid rgba(255,255,255,0.7);
             overflow-x: auto;
+            margin-bottom: 2rem;
         }
+
+        /* 活动表格 */
         .activity-table {
             width: 100%;
             border-collapse: collapse;
@@ -197,14 +239,101 @@
             vertical-align: middle;
             background: white;
         }
-        .activity-table tbody tr {
-            transition: all 0.2s ease;
-        }
         .activity-table tbody tr:hover {
             background-color: #f8fafc;
             transform: scale(1.001);
             box-shadow: 0 4px 12px rgba(0,0,0,0.03);
         }
+
+        /* 礼品区域 */
+        .gifts-section {
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
+            padding: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15);
+            border: 1px solid rgba(255,255,255,0.7);
+            margin-bottom: 2rem;
+        }
+
+        /* 礼品内部标签页导航 */
+        .gift-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+        .gift-tabs .tab-btn {
+            padding: 0.6rem 1.5rem;
+            border: none;
+            background: none;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #64748b;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: all 0.2s;
+        }
+        .gift-tabs .tab-btn:hover {
+            background: #f1f5f9;
+            color: #334155;
+        }
+        .gift-tabs .tab-btn.active {
+            background: #667eea;
+            color: white;
+        }
+        .tab-pane {
+            display: none;
+        }
+        .tab-pane.active {
+            display: block;
+        }
+
+        /* 礼品表格 */
+        .gift-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+        .gift-table th {
+            background: #f1f4f9;
+            color: #334155;
+            font-weight: 600;
+            padding: 1rem 0.75rem;
+            text-align: left;
+            border-bottom: 2px solid #d1d9e6;
+        }
+        .gift-table td {
+            padding: 1rem 0.75rem;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: middle;
+            background: white;
+        }
+        .gift-img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: #f8fafc;
+            padding: 4px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .gift-img:hover {
+            transform: scale(1.1);
+        }
+        .badge-points {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 0.35rem 0.9rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-left: 3px solid #f59e0b;
+        }
+
+        /* 通用徽章 */
         .badge {
             display: inline-block;
             padding: 0.35rem 0.9rem;
@@ -241,6 +370,7 @@
             color: #475569;
             border-left: 3px solid #94a3b8;
         }
+
         .btn-link {
             text-decoration: none;
             color: #2563eb;
@@ -258,6 +388,7 @@
             color: white;
             transform: translateX(3px);
         }
+
         .no-data {
             background: white;
             padding: 3rem;
@@ -267,6 +398,14 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             font-size: 1.1rem;
         }
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            border-left: 4px solid #3b82f6;
+            padding-left: 1rem;
+        }
+
         footer {
             margin-top: 3rem;
             text-align: center;
@@ -281,6 +420,7 @@
             justify-content: center;
             gap: 1rem;
         }
+
         .back-to-top {
             position: fixed;
             bottom: 30px;
@@ -312,13 +452,53 @@
             transform: translateY(-5px);
             box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
         }
+
+        /* 图片放大模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            overflow: auto;
+            cursor: pointer;
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: contain;
+        }
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        .close:hover,
+        .close:focus {
+            color: #ccc;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
     <div class="report-container">
-        <h1><i class="fas fa-calendar-alt"></i> 每日活动报告</h1>
+        <h1><i class="fas fa-calendar-alt"></i> 每日活动报告 · 积分礼品</h1>
 
-        <!-- 不蒜子统计区域（最上层） -->
+        <!-- 不蒜子统计 -->
         
     <div class="bsz-grid">
         <div class="bsz-card">
@@ -340,7 +520,17 @@
     </div>
     
 
-        <!-- 原有活动统计卡片 -->
+        <!-- 主标签页导航 -->
+        
+    <div class="main-tabs">
+        <button class="main-tab-btn active" data-main="activities-tab"><i class="fas fa-calendar-alt"></i> 今日活动</button>
+        <button class="main-tab-btn" data-main="gifts-tab"><i class="fas fa-gift"></i> 积分礼品</button>
+    </div>
+    
+
+        <!-- 主标签页内容 -->
+        
+    <div id="activities-tab" class="main-tab-pane active">
         
     <div class="stats-card">
         <div class="stat-item">
@@ -366,10 +556,9 @@
         </div>
     </div>
     
-
         <div class="subtitle">每小时更新一次 · 没更新则代表数据无变化</div>
         
-    <div class="table-container">
+    <div class="table-container" id="activities">
         <h2 class="section-title">今日活动 (2026-03-06)</h2>
         <table class="activity-table">
             <thead>
@@ -992,17 +1181,722 @@
         </table>
     </div>
     
+    </div>
+    <div id="gifts-tab" class="main-tab-pane">
+        
+    <div class="gifts-section" id="gifts">
+        <h2 class="section-title">🎁 积分礼品兑换</h2>
+        
+    <div class="stats-card gifts-stats">
+        
+    <div class="stat-item">
+        <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"><i class="fas fa-gift"></i></div>
+        <div class="stat-info">
+            <h3>礼品总数</h3>
+            <p>73</p>
+        </div>
+    </div>
+    
+        <div class="stat-item">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #34b1aa 0%, #1e847f 100%);"><i class="fas fa-tag"></i></div>
+            <div class="stat-info">
+                <h3>1积分礼品</h3>
+                <p>20</p>
+            </div>
+        </div>
+        
+        <div class="stat-item">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #34b1aa 0%, #1e847f 100%);"><i class="fas fa-tag"></i></div>
+            <div class="stat-info">
+                <h3>乘风者博主礼品</h3>
+                <p>3</p>
+            </div>
+        </div>
+        
+        <div class="stat-item">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #34b1aa 0%, #1e847f 100%);"><i class="fas fa-tag"></i></div>
+            <div class="stat-info">
+                <h3>社区周边专区</h3>
+                <p>8</p>
+            </div>
+        </div>
+        
+        <div class="stat-item">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #34b1aa 0%, #1e847f 100%);"><i class="fas fa-tag"></i></div>
+            <div class="stat-info">
+                <h3>活动礼品</h3>
+                <p>42</p>
+            </div>
+        </div>
+        
+    </div>
+    
+        <div class="tabs-nav gift-tabs"><button class="tab-btn active" data-tab="gift-tab-0">1积分礼品</button><button class="tab-btn" data-tab="gift-tab-1">乘风者博主礼品</button><button class="tab-btn" data-tab="gift-tab-2">社区周边专区</button><button class="tab-btn" data-tab="gift-tab-3">活动礼品</button></div>
+        <div class="tabs-content"><div class="tab-pane active" id="gift-tab-0">
+            <table class="gift-table">
+                <thead>
+                    <tr>
+                        <th>图片</th>
+                        <th>礼品名称</th>
+                        <th>所需积分</th>
+                        <th>已兑换</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i3/2214960628911/O1CN01G187eP2FhIQykjNWs_!!2214960628911.png" alt="乘风者技术博主—运动水杯" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>乘风者技术博主—运动水杯</td>
+                    <td><span class="badge badge-points">1</span></td>
+                    <td>12</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i4/3316061314/O1CN01k7IOrp1LZrLKbTvSx_!!3316061314.jpg" alt="天猫精灵 CCH智能音箱带屏AI蓝牙音响无线闹钟语音助手机器人" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>天猫精灵 CCH智能音箱带屏AI蓝牙音响无线闹钟语音助手机器人</td>
+                    <td><span class="badge badge-points">1</span></td>
+                    <td>27</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i2/2201426856130/O1CN01fiSQfL1v9amGvQe3p_!!2201426856130.jpg" alt="新款10寸透明背光键盘用ipad蓝牙渐变键盘多系统设备静音轻薄便携" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>新款10寸透明背光键盘用ipad蓝牙渐变键盘多系统设备静音轻薄便携</td>
+                    <td><span class="badge badge-points">1</span></td>
+                    <td>74</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i4/3316061314/O1CN01wMfm8f1LZrV7h1nMR_!!3316061314.jpg" alt="无线磁吸充电宝便携双向快充移动电源10000毫安L" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>无线磁吸充电宝便携双向快充移动电源10000毫安L</td>
+                    <td><span class="badge badge-points">1</span></td>
+                    <td>43</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i3/2214960628911/O1CN013nnZMD2FhIQxTB2OD_!!2214960628911.png" alt="乘风者星级博主—充气颈枕" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>乘风者星级博主—充气颈枕</td>
+                    <td><span class="badge badge-points">1</span></td>
+                    <td>10</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i1/3316061314/O1CN01piNwBm1LZrU87y5XV_!!3316061314.jpg" alt="维康冰垫坐垫凉垫汽车水袋降温椅垫夏天免注水凝胶透气学生冰凉枕" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>维康冰垫坐垫凉垫汽车水袋降温椅垫夏天免注水凝胶透气学生冰凉枕</td>
+                    <td><span class="badge badge-points">1</span></td>
+                    <td>116</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i4/2210260125643/O1CN01pSIGTl1rYY3yfDWv6_!!4611686018427381707-0-item_pic.jpg" alt="通义灵码棒球帽" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>通义灵码棒球帽</td>
+                    <td><span class="badge badge-points">1</span></td>
+                    <td>202</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i2/3316061314/O1CN01R5v1bi1LZrUxfXzPL_!!3316061314.jpg" alt="志高电蒸锅煮蛋器家用蒸煮一体宿舍早餐机多功能定时预约自动" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>志高电蒸锅煮蛋器家用蒸煮一体宿舍早餐机多功能定时预约自动</td>
+                    <td><span class="badge badge-points">1</span></td>
+                    <td>18</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i3/3316061314/O1CN0118D79t1LZrMUwYjFJ_!!3316061314.jpg" alt="网红吨吨杯健身超大容量运动水壶塑料太空杯顿顿吸管杯吨吨桶" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>网红吨吨杯健身超大容量运动水壶塑料太空杯顿顿吸管杯吨吨桶</td>
+                    <td><span class="badge badge-points">1</span></td>
+                    <td>5</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i3/2215899899112/O1CN01fAHX382HBLwu6Lg3B_!!2215899899112.jpg" alt="冰丝脖套护颈托" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>冰丝脖套护颈托</td>
+                    <td><span class="badge badge-points">1</span></td>
+                    <td>97</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i3/3316061314/O1CN01c2xSvw1LZrT7mDogP_!!3316061314.jpg" alt="三丽鸥数据线三合一充电线器66W快充一拖三车载适用苹果华为安卓" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>三丽鸥数据线三合一充电线器66W快充一拖三车载适用苹果华为安卓</td>
+                    <td><span class="badge badge-points">1</span></td>
+                    <td>107</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i4/3316061314/O1CN011WIxIb1LZrTCRGLrC_!!3316061314.jpg" alt="豆豆鸭硅胶小夜灯氛围灯卧室床头灯usb充电伴睡拍拍灯感应灯" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>豆豆鸭硅胶小夜灯氛围灯卧室床头灯usb充电伴睡拍拍灯感应灯</td>
+                    <td><span class="badge badge-points">1</span></td>
+                    <td>5</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i1/3316061314/O1CN01M4NJij1LZrRTpB3cd_!!3316061314.jpg" alt="收纳盒桌面抽屉透明可叠加手账整理神器办公桌上工位置物架亚克力" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>收纳盒桌面抽屉透明可叠加手账整理神器办公桌上工位置物架亚克力</td>
+                    <td><span class="badge badge-points">1</span></td>
+                    <td>402</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i4/3316061314/O1CN01We80us1LZrBFjUrPh_!!3316061314.jpg" alt="150*80cm户外野餐垫便携防水防潮野炊春游垫子" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>150*80cm户外野餐垫便携防水防潮野炊春游垫子</td>
+                    <td><span class="badge badge-points">1</span></td>
+                    <td>19</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i2/3316061314/O1CN01cY5F1P1LZrPHKAaLG_!!3316061314.jpg" alt="户外便携式懒人沙发水上沙滩草地公园空气床沙发可折叠睡袋" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>户外便携式懒人沙发水上沙滩草地公园空气床沙发可折叠睡袋</td>
+                    <td><span class="badge badge-points">1</span></td>
+                    <td>12</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i4/2210260125643/O1CN01Aa0GtU1rYXp0gDSeE_!!2210260125643.jpg" alt="开发者社区定制云小宝内彩马克杯" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>开发者社区定制云小宝内彩马克杯</td>
+                    <td><span class="badge badge-points">1</span></td>
+                    <td>321</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i4/3316061314/O1CN01cqZm791LZrS3qSrpo_!!3316061314.jpg" alt="秋冬季保温壶家用大容量热水玻璃内胆暖水壶学生宿舍暖jeko" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>秋冬季保温壶家用大容量热水玻璃内胆暖水壶学生宿舍暖jeko</td>
+                    <td><span class="badge badge-points">1</span></td>
+                    <td>5</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i3/2214960628911/O1CN01QQO3ak2FhIQx3N5RQ_!!2214960628911.png" alt="乘风者专家博主—桌面台灯" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>乘风者专家博主—桌面台灯</td>
+                    <td><span class="badge badge-points">1</span></td>
+                    <td>8</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i4/3316061314/O1CN01ihkDdB1LZrRmJ84UY_!!3316061314.jpg" alt="美的MK-Y12Q养生壶煮茶器多功能家用1.5电热壶花茶壶养生壶" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>美的MK-Y12Q养生壶煮茶器多功能家用1.5电热壶花茶壶养生壶</td>
+                    <td><span class="badge badge-points">1</span></td>
+                    <td>53</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i4/3316061314/O1CN01FHMybD1LZrOkYPLuI_!!3316061314.jpg" alt="Babybee黑胶防紫外线晴雨伞8骨" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>Babybee黑胶防紫外线晴雨伞8骨</td>
+                    <td><span class="badge badge-points">1</span></td>
+                    <td>475</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                </tbody>
+            </table>
+            </div><div class="tab-pane" id="gift-tab-1">
+            <table class="gift-table">
+                <thead>
+                    <tr>
+                        <th>图片</th>
+                        <th>礼品名称</th>
+                        <th>所需积分</th>
+                        <th>已兑换</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i1/2210260125643/O1CN01zDPUX21rYXtUhHwM3_!!2210260125643.jpg" alt="乘风者技术博主—运动水杯" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>乘风者技术博主—运动水杯</td>
+                    <td><span class="badge badge-points">1</span></td>
+                    <td>800</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i3/2210260125643/O1CN011rhz6C1rYXteBOKRF_!!2210260125643.jpg" alt="乘风者星级博主—充气颈枕" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>乘风者星级博主—充气颈枕</td>
+                    <td><span class="badge badge-points">1</span></td>
+                    <td>721</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i4/2210260125643/O1CN01oUpnM61rYXtfbwBP1_!!0-item_pic.jpg" alt="乘风者专家博主—桌面台灯" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>乘风者专家博主—桌面台灯</td>
+                    <td><span class="badge badge-points">1</span></td>
+                    <td>692</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                </tbody>
+            </table>
+            </div><div class="tab-pane" id="gift-tab-2">
+            <table class="gift-table">
+                <thead>
+                    <tr>
+                        <th>图片</th>
+                        <th>礼品名称</th>
+                        <th>所需积分</th>
+                        <th>已兑换</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i2/2210260125643/O1CN01O4cG1A1rYXln3i3CB_!!2210260125643.jpg" alt="开发者社区定制云小宝抱枕（初入江湖款）" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>开发者社区定制云小宝抱枕（初入江湖款）</td>
+                    <td><span class="badge badge-points">2418</span></td>
+                    <td>38</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i4/2210260125643/O1CN01vqb7z51rYXlwXlsKk_!!2210260125643.jpg" alt="【Lv2及以上用户专享】开发者社区定制云小宝抱枕（江湖新秀款）" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>【Lv2及以上用户专享】开发者社区定制云小宝抱枕（江湖新秀款）</td>
+                    <td><span class="badge badge-points">2418</span></td>
+                    <td>16</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i4/2210260125643/O1CN01IM0aOt1rYXm4yBxk1_!!2210260125643.jpg" alt="【Lv3及以上用户专享】开发者社区定制云小宝抱枕（江湖侠士款）" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>【Lv3及以上用户专享】开发者社区定制云小宝抱枕（江湖侠士款）</td>
+                    <td><span class="badge badge-points">2418</span></td>
+                    <td>39</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i3/2210260125643/O1CN0103x5PF1rYXm1ngbai_!!2210260125643.jpg" alt="【Lv4及以上用户专享】开发者社区定制云小宝抱枕（门派掌门款）" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>【Lv4及以上用户专享】开发者社区定制云小宝抱枕（门派掌门款）</td>
+                    <td><span class="badge badge-points">2418</span></td>
+                    <td>50</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i1/2210260125643/O1CN010oWtcp1rYXln3xHzq_!!2210260125643.jpg" alt="【Lv5用户专享】开发者社区定制云小宝抱枕（一代宗师款）" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>【Lv5用户专享】开发者社区定制云小宝抱枕（一代宗师款）</td>
+                    <td><span class="badge badge-points">2418</span></td>
+                    <td>39</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i4/2210260125643/O1CN01ODpI0y1rYXltNSrsQ_!!2210260125643.jpg" alt="开发者社区定制云小宝帆布包" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>开发者社区定制云小宝帆布包</td>
+                    <td><span class="badge badge-points">1982</span></td>
+                    <td>207</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i2/2210260125643/O1CN01VsIAaN1rYXmZWlUoV_!!2210260125643.jpg" alt="开发者社区定制云小宝贴纸" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>开发者社区定制云小宝贴纸</td>
+                    <td><span class="badge badge-points">715</span></td>
+                    <td>108</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/imgextra/i1/2210260125643/O1CN01vdSscl1rYXoccwIkm_!!2210260125643.jpg" alt="开发者社区定制云小宝卫衣" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>开发者社区定制云小宝卫衣</td>
+                    <td><span class="badge badge-points">9870</span></td>
+                    <td>41</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                </tbody>
+            </table>
+            </div><div class="tab-pane" id="gift-tab-3">
+            <table class="gift-table">
+                <thead>
+                    <tr>
+                        <th>图片</th>
+                        <th>礼品名称</th>
+                        <th>所需积分</th>
+                        <th>已兑换</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                <tr>
+                    <td><img src="https://img.alicdn.com/i4/3316061314/O1CN01oZD2971LZrFVW6R7R_!!3316061314.jpg" alt="适用米家小爱同学小爱音箱2代wifi智能语音互动声控蓝牙网络音响" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>适用米家小爱同学小爱音箱2代wifi智能语音互动声控蓝牙网络音响</td>
+                    <td><span class="badge badge-points">18000</span></td>
+                    <td>698</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i4/3316061314/O1CN01H1rgKO1LZrTF2aRQv_!!3316061314.jpg" alt="1200ML汽车杯304不锈钢吸管保温杯保冷冰霸杯车载水杯" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>1200ML汽车杯304不锈钢吸管保温杯保冷冰霸杯车载水杯</td>
+                    <td><span class="badge badge-points">2250</span></td>
+                    <td>115</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i2/2215899899112/O1CN01nuS2UZ2HBLzOAQxxG_!!2215899899112.jpg" alt="卡通吐司毛绒卷毯" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>卡通吐司毛绒卷毯</td>
+                    <td><span class="badge badge-points">2500</span></td>
+                    <td>85</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i1/3316061314/O1CN01uiNxn01LZrH1om44u_!!3316061314.png" alt="Midea/美的 WBL-2501b" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>Midea/美的 WBL-2501b</td>
+                    <td><span class="badge badge-points">9500</span></td>
+                    <td>761</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i1/3316061314/O1CN01uOTjaI1LZrNPTbC0Z_!!3316061314.jpg" alt="6包一提洁柔抽纸face可湿水小包装600抽三层纸巾" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>6包一提洁柔抽纸face可湿水小包装600抽三层纸巾</td>
+                    <td><span class="badge badge-points">1150</span></td>
+                    <td>1929</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i4/2215899899112/O1CN018muv9H2HBLzJAlGp1_!!2215899899112.jpg" alt="led折叠台灯" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>led折叠台灯</td>
+                    <td><span class="badge badge-points">1990</span></td>
+                    <td>78</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i3/2215899899112/O1CN01bBrF302HBLzQ7KBwI_!!2215899899112.jpg" alt="伸缩款桌面支架" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>伸缩款桌面支架</td>
+                    <td><span class="badge badge-points">1200</span></td>
+                    <td>75</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i3/3316061314/O1CN01gci7mV1LZrSt2oPmq_!!3316061314.jpg" alt="人体智能感应灯走廊不插电小夜灯全自动超亮厕所楼道宿舍家用新款" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>人体智能感应灯走廊不插电小夜灯全自动超亮厕所楼道宿舍家用新款</td>
+                    <td><span class="badge badge-points">1850</span></td>
+                    <td>83</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i1/3316061314/O1CN01XqNC4s1LZrAsuVM9N_!!3316061314.jpg" alt="三色创意萌宠停车号码牌" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>三色创意萌宠停车号码牌</td>
+                    <td><span class="badge badge-points">560</span></td>
+                    <td>344</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i4/3316061314/O1CN01gV2DlF1LZrOpchkvZ_!!3316061314.jpg" alt="维达手帕纸超韧航天联名款餐巾纸擦手纸便携式卫生纸30包1条装" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>维达手帕纸超韧航天联名款餐巾纸擦手纸便携式卫生纸30包1条装</td>
+                    <td><span class="badge badge-points">950</span></td>
+                    <td>664</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i3/2215899899112/O1CN01JuYmbS2HBLySOESm2_!!2215899899112.jpg" alt="REMAX手机充电线" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>REMAX手机充电线</td>
+                    <td><span class="badge badge-points">3900</span></td>
+                    <td>108</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i2/2201426856130/O1CN01f7UH291v9alM8w47U_!!2201426856130.jpg" alt="新潮流咖啡杯  运动水杯公司广告杯子开业活动可乐杯伴手礼" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>新潮流咖啡杯  运动水杯公司广告杯子开业活动可乐杯伴手礼</td>
+                    <td><span class="badge badge-points">990</span></td>
+                    <td>221</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i4/3316061314/O1CN010U4bVF1LZrQXURI6w_!!3316061314.jpg" alt="小米蓝牙支架自拍杆迷你便携多功能三脚架苹果安卓通用" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>小米蓝牙支架自拍杆迷你便携多功能三脚架苹果安卓通用</td>
+                    <td><span class="badge badge-points">9300</span></td>
+                    <td>80</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i2/3316061314/O1CN01azHyX01LZrMFbsC7P_!!3316061314.jpg" alt="Joyoung/九阳 K15FD-W123" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>Joyoung/九阳 K15FD-W123</td>
+                    <td><span class="badge badge-points">7900</span></td>
+                    <td>201</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i2/3316061314/O1CN01sMb0zO1LZrRkHS6LU_!!3316061314.jpg" alt="智能柔音加热破壁机老人家用豆浆机316不锈钢辅食触屏多功能" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>智能柔音加热破壁机老人家用豆浆机316不锈钢辅食触屏多功能</td>
+                    <td><span class="badge badge-points">8500</span></td>
+                    <td>65</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i2/3316061314/O1CN01P2qjTA1LZrOaEfhXa_!!3316061314.jpg" alt="户外折叠椅子便携式 大号钓椅（36*36*57*31）" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>户外折叠椅子便携式 大号钓椅（36*36*57*31）</td>
+                    <td><span class="badge badge-points">2150</span></td>
+                    <td>2493</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i2/3316061314/O1CN017ew7IF1LZrQPg8Cby_!!3316061314.jpg" alt="史努比正版卡通杯子316不锈钢便携颜值水杯家用三盖儿童保温杯" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>史努比正版卡通杯子316不锈钢便携颜值水杯家用三盖儿童保温杯</td>
+                    <td><span class="badge badge-points">9500</span></td>
+                    <td>586</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i3/3316061314/O1CN016P59VF1LZrQLoJola_!!3316061314.jpg" alt="316不锈钢智能保温杯大容量水杯子大号焖泡茶户外水壶两用" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>316不锈钢智能保温杯大容量水杯子大号焖泡茶户外水壶两用</td>
+                    <td><span class="badge badge-points">2500</span></td>
+                    <td>148</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i2/3316061314/O1CN01FKkxQp1LZrPhNvDM0_!!3316061314.jpg" alt="卡通可爱狗狗太阳伞手动黑胶防晒防紫外线遮阳伞学生小清新晴雨伞" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>卡通可爱狗狗太阳伞手动黑胶防晒防紫外线遮阳伞学生小清新晴雨伞</td>
+                    <td><span class="badge badge-points">2500</span></td>
+                    <td>76</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i2/3316061314/O1CN01uGLm6L1LZrVkogFFS_!!3316061314.jpg" alt="人体工学护腰坐垫久坐神器办公室腰靠背靠垫靠背椅靠背一体" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>人体工学护腰坐垫久坐神器办公室腰靠背靠垫靠背椅靠背一体</td>
+                    <td><span class="badge badge-points">1500</span></td>
+                    <td>104</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i3/2201426856130/O1CN015OX67r1v9amOwiLV2_!!2201426856130.jpg" alt="铝合金电脑桌面平板支架 平板托架电脑通用折叠便携散热支撑架" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>铝合金电脑桌面平板支架 平板托架电脑通用折叠便携散热支撑架</td>
+                    <td><span class="badge badge-points">2590</span></td>
+                    <td>52</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i3/3316061314/O1CN01sij5Pu1LZrVahT1Br_!!3316061314.jpg" alt="惠普有线耳机入耳式电竞游戏耳塞通用DHE-7005安卓版" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>惠普有线耳机入耳式电竞游戏耳塞通用DHE-7005安卓版</td>
+                    <td><span class="badge badge-points">5200</span></td>
+                    <td>66</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i4/3316061314/O1CN01J2xELE1LZrTk3uQsF_!!3316061314.jpg" alt="AOC 机械键盘 GK410青轴黑轴茶轴电竞全键无冲游戏台式" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>AOC 机械键盘 GK410青轴黑轴茶轴电竞全键无冲游戏台式</td>
+                    <td><span class="badge badge-points">8500</span></td>
+                    <td>521</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i3/3316061314/O1CN01wDGvmX1LZrMj58isB_!!3316061314.jpg" alt="小米小爱音箱Pro黑色小爱同学mi智能音箱设备控制蓝牙Mesh网关" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>小米小爱音箱Pro黑色小爱同学mi智能音箱设备控制蓝牙Mesh网关</td>
+                    <td><span class="badge badge-points">26500</span></td>
+                    <td>336</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i1/101732572/O1CN01CTrB3s1Us1eEDGggi_!!101732572.jpg" alt="英菲克IN9无线鼠标" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>英菲克IN9无线鼠标</td>
+                    <td><span class="badge badge-points">8900</span></td>
+                    <td>75</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i1/3316061314/O1CN016znsGl1LZrXPhGxES_!!3316061314.jpg" alt="酷态科240W编织磁吸双Type-c" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>酷态科240W编织磁吸双Type-c</td>
+                    <td><span class="badge badge-points">4800</span></td>
+                    <td>845</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i2/3316061314/O1CN01hqehsR1LZrX7t9Ylr_!!3316061314.jpg" alt="史努比系列单层小毛毯法兰绒婴儿空调毯子宝宝毯午睡毯140*100cm" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>史努比系列单层小毛毯法兰绒婴儿空调毯子宝宝毯午睡毯140*100cm</td>
+                    <td><span class="badge badge-points">2300</span></td>
+                    <td>21</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i3/101732572/O1CN01oGNz821Us1nLAF4j4~crop,0,507,1985,1985~_!!101732572.png" alt="九阳养生壶办公室小型多功能热水壶1506BQ" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>九阳养生壶办公室小型多功能热水壶1506BQ</td>
+                    <td><span class="badge badge-points">7500</span></td>
+                    <td>65</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i4/3316061314/O1CN01S373FA1LZrW0LFt8p_!!3316061314.jpg" alt="洗脸巾一次性加厚加大抽取式洁面巾擦脸巾" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>洗脸巾一次性加厚加大抽取式洁面巾擦脸巾</td>
+                    <td><span class="badge badge-points">500</span></td>
+                    <td>119</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i4/101732572/O1CN01FRqoEb1Us1imqtT6i_!!101732572.jpg" alt="好物推荐-小米小爱音箱Play" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>好物推荐-小米小爱音箱Play</td>
+                    <td><span class="badge badge-points">8900</span></td>
+                    <td>28</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i4/101732572/O1CN01ehj9TK1Us1l2viR2S_!!101732572.jpg" alt="华为FreeBuds 6i 蓝牙耳机" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>华为FreeBuds 6i 蓝牙耳机</td>
+                    <td><span class="badge badge-points">43000</span></td>
+                    <td>4</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i4/3316061314/O1CN01Zw5UFk1LZrXucFzox_!!3316061314.jpg" alt="疯狂动物城迷你湿巾" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>疯狂动物城迷你湿巾</td>
+                    <td><span class="badge badge-points">480</span></td>
+                    <td>30</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i4/3316061314/O1CN01orxFmw1LZrYTiJ3vT_!!3316061314.jpg" alt="米奇玩具储物积木箱" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>米奇玩具储物积木箱</td>
+                    <td><span class="badge badge-points">5600</span></td>
+                    <td>19</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i4/101732572/O1CN01z4uIFh1Us1nvgVd0O_!!101732572.png" alt="SUPOR/苏泊尔 SF40FC0063" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>SUPOR/苏泊尔 SF40FC0063</td>
+                    <td><span class="badge badge-points">16900</span></td>
+                    <td>37</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i3/101732572/O1CN01bemAgF1Us1isn0B4T_!!101732572.jpg" alt="米家即热饮水机S1" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>米家即热饮水机S1</td>
+                    <td><span class="badge badge-points">23200</span></td>
+                    <td>13</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i1/101732572/O1CN01r1TIHt1Us1lhmt9Qo_!!101732572.png" alt="华为手表WATCH FIT4" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>华为手表WATCH FIT4</td>
+                    <td><span class="badge badge-points">67000</span></td>
+                    <td>0</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i1/101732572/O1CN01hJ0QQs1Us1mJQwfxG_!!101732572.jpg" alt="得力（deli）5号电池 碱性干电池" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>得力（deli）5号电池 碱性干电池</td>
+                    <td><span class="badge badge-points">450</span></td>
+                    <td>0</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i2/101732572/O1CN01dcpvTC1Us1irIwc2h_!!101732572.jpg" alt="小米经典商务双肩包2" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>小米经典商务双肩包2</td>
+                    <td><span class="badge badge-points">8300</span></td>
+                    <td>0</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i1/101732572/O1CN01HbgNIH1Us1isbWWiu_!!101732572.jpg" alt="米家吹风机H101" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>米家吹风机H101</td>
+                    <td><span class="badge badge-points">7640</span></td>
+                    <td>0</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i3/101732572/O1CN01ixJl5V1Us1nmawIsD_!!101732572.jpg" alt="公牛（BULL）插座GN-R2220" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>公牛（BULL）插座GN-R2220</td>
+                    <td><span class="badge badge-points">3060</span></td>
+                    <td>0</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i4/101732572/O1CN01DMGGCA1Us1o46k2OK_!!101732572.jpg" alt="山本电煮锅" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>山本电煮锅</td>
+                    <td><span class="badge badge-points">4150</span></td>
+                    <td>0</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="https://img.alicdn.com/i2/101732572/O1CN01uBEB811Us1j8OkOzC_!!101732572.jpg" alt="Midea/美的 PM2000微波炉" class="gift-img" onclick="openModal(this.src)" onerror="this.style.display='none'"></td>
+                    <td>Midea/美的 PM2000微波炉</td>
+                    <td><span class="badge badge-points">28000</span></td>
+                    <td>0</td>
+                    <td><a href="https://developer.aliyun.com/score" target="_blank" class="btn-link">去兑换 →</a></td>
+                </tr>
+                
+                </tbody>
+            </table>
+            </div></div>
+    </div>
+    
+    </div>
+    
 
         <footer>
-            <i class="far fa-clock"></i> 最后更新：2026-03-06 09:34:06
-            <!-- 可在此处放置其他页脚信息 -->
+            <i class="far fa-clock"></i> 最后更新：2026-03-06 10:15:28
         </footer>
     </div>
 
-    <!-- 返回顶部按钮 -->
+    <!-- 图片放大模态框 -->
+    <div id="imageModal" class="modal" onclick="this.style.display='none'">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
     <button class="back-to-top" id="backToTop" title="返回顶部"><i class="fas fa-arrow-up"></i></button>
+
     <script>
-        // 返回顶部逻辑
+        // 返回顶部
         window.addEventListener('scroll', function() {
             var btn = document.getElementById('backToTop');
             if (window.scrollY > 300) {
@@ -1014,9 +1908,39 @@
         document.getElementById('backToTop').addEventListener('click', function() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
+
+        // 主标签页切换
+        document.querySelectorAll('.main-tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.main-tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.main-tab-pane').forEach(p => p.classList.remove('active'));
+                this.classList.add('active');
+                const tabId = this.getAttribute('data-main');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // 礼品内部标签页切换
+        document.querySelectorAll('.gift-tabs .tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const tabsContainer = this.closest('.gift-tabs');
+                tabsContainer.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                const panesContainer = tabsContainer.nextElementSibling;
+                panesContainer.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+                this.classList.add('active');
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // 图片放大功能
+        function openModal(src) {
+            document.getElementById('modalImage').src = src;
+            document.getElementById('imageModal').style.display = 'block';
+        }
+        // 点击模态框背景关闭（已在div上设置onclick）
     </script>
 
-    <!-- 不蒜子脚本（defer 加载） -->
     <script src="//cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.min.js" defer></script>
 </body>
 </html>
